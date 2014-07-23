@@ -13,12 +13,24 @@ public class DataBaseFacade {
 
 	DAOUser daoUser;
 	DAOArtist daoArtist;
-	DAORaiting daoRaiting;
 	
 	public DataBaseFacade() {
 		daoUser = new DAOUser();
 		daoArtist = new DAOArtist();
-		daoRaiting = new DAORaiting();
+		
+		DAORaiting daoRaiting = new DAORaiting();
+		
+		for(Rating rating : daoRaiting.findAll()) {
+			int userId = rating.getUserID();
+			int artistId = rating.getArtistID();
+			int rate = rating.rate;
+			
+			daoUser.find(userId).ratings.put(daoArtist.find(artistId), rate);
+		}
+		
+		for(User user : daoUser.findAll()) {
+			System.out.println(user.ratings);
+		}
 	}
 
 	public void add(User user) {
@@ -29,20 +41,12 @@ public class DataBaseFacade {
 		this.daoArtist.add(artist);
 	}
 	
-	public void add(Rating raiting) {
-		this.daoRaiting.add(raiting);
-	}
-	
 	public void delete(User user) {
 		this.daoUser.delete(user);
 	}
 	
 	public void delete(Artist artist) {
 		this.daoArtist.delete(artist);
-	}
-	
-	public void delete(Rating raiting) {
-		this.daoRaiting.delete(raiting);
 	}
 	
 	public void update(User user) {
@@ -53,20 +57,12 @@ public class DataBaseFacade {
 		this.daoArtist.update(artist);
 	}
 	
-	public void update(Rating raiting) {
-		this.daoRaiting.update(raiting);
-	}
-
 	public List<User> findAllUsers() {
 		return this.daoUser.findAll();
 	}
 	
 	public List<Artist> findAllArtists() {
 		return this.daoArtist.findAll();
-	}
-	
-	public List<Rating> findAllRaitings() {
-		return this.daoRaiting.findAll();
 	}
 	
 	public User findUser(int userID) {
@@ -77,8 +73,8 @@ public class DataBaseFacade {
 		return this.daoArtist.find(artistID);
 	}
 
-	public List<Rating> userRatings(int userid) {
-		return this.daoRaiting.getUserRaiting(userid);
+	public static void main(String[] args) {
+		DataBaseFacade baseFacade = new DataBaseFacade();
 	}
 	
 }

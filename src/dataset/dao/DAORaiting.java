@@ -13,7 +13,7 @@ public class DAORaiting implements IntfDAO<Rating> {
 	
 	public DAORaiting() {
 		this.raitings = new ArrayList<Rating>();
-		raitings.add(new Rating(1, 1, 0));
+		raitings.add(new Rating(1, 1, 3));
 		raitings.add(new Rating(1, 3, 3));
 		raitings.add(new Rating(1, 4, 2)); // FIXME alterar para 2.5
 		raitings.add(new Rating(1, 5, 4));
